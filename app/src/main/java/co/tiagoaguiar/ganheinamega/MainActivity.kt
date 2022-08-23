@@ -24,8 +24,13 @@ class MainActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences("db", Context.MODE_PRIVATE)
         val result = prefs.getString("result", null)
-        if (result !=  null){
-            txtResult.text = "Ultima aposta: $result"
+
+        // if -> let
+//        if (result !=  null){
+//            txtResult.text = "Ultima aposta: $result"
+//        }
+        result?.let {
+            txtResult.text = "Ultima aposta: $it"
         }
 
         btnGenerate.setOnClickListener {
@@ -62,10 +67,17 @@ class MainActivity : AppCompatActivity() {
 
         val editor = prefs.edit()
         editor.putString("result", txtResult.text.toString())
-
         // commit -> salvar de forma sincrona ( bloquear a interface) e retorna se teve sucesso ou não
         // apply -> salvar de forma assincrona (nao vai bloquear a interface) e não retorna se teve sucesso ou não
         editor.apply()
+
+
+        //alternativa 2
+//        prefs.edit().apply {
+//            putString("result", txtResult.text.toString())
+//            apply()
+//        }
+
     }
 
 }
