@@ -25,30 +25,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun numberGenerator(text: String, txtResult: TextView) {
-        // validar quando o campo é vazio
-        // validar se o campo informado é entre 6 e 15
-        if (text.isNotEmpty()) {
-            val qtd = text.toInt()
-            if (qtd >= 6 && qtd <= 15) {
-                //Lembrando que mutableSetOf só adiciona numeros nao repetidos
-                val numbers = mutableSetOf<Int>()
-                val random = Random
-                while (true) {
-                    val number = random.nextInt(60)
-                    numbers.add(number+1)
-                    if (numbers.size == qtd){
-                        break
-                    }
-                }
-                // 1 - 2 - 3 - 4
-                txtResult.text = numbers.joinToString(" - ")
-
-            } else {
-                Toast.makeText(this, "Informe um número entre 6 e 15", Toast.LENGTH_LONG).show()
-            }
-        } else {
+        // Primeiro verificamos a falha
+        // Assim não ficamos com vários if e else
+        if (text.isEmpty()) {
             Toast.makeText(this, "Informe um número entre 6 e 15", Toast.LENGTH_LONG).show()
+            return
         }
+        val qtd = text.toInt()
+        if (qtd < 6 || qtd > 15) {
+            Toast.makeText(this, "Informe um número entre 6 e 15", Toast.LENGTH_LONG).show()
+            return
+        }
+        //Depois o sucesso
+        val numbers = mutableSetOf<Int>()
+        val random = Random
+        while (true) {
+            val number = random.nextInt(60)
+            numbers.add(number + 1)
+            if (numbers.size == qtd) {
+                break
+            }
+        }
+        // 1 - 2 - 3 -4 6
+        txtResult.text = numbers.joinToString(" - ")
+
 
     }
+
 }
